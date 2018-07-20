@@ -1,4 +1,5 @@
 import csv
+import re
 import sys
 
 
@@ -10,7 +11,7 @@ EXCLUSIVE_SHELF_TO_STATUS = {
 	'abandoned': 'Abandoned',
 	'to-read': 'Not Begun',
 	'tbr': 'Not Begun',
-	'owned-havent-read': 'Not Begun',
+	'own-havent-read': 'Not Begun',
 	'owned-unread': 'Not Begun'
 }
 
@@ -34,18 +35,17 @@ def convert_csv(args):
 	print 'export contains {} books. Writing to \'libib_export.csv\' output file.'.format(len(books))
 
 	with open('libib_export.csv', 'wb') as f:
-		#TODO fix string representation of dates
 		writer = csv.writer(f)
 		writer.writerow(libib_keys)
 		for book in books:
 			# Fields left blank are not available in the goodreads export
 			row = []
-			row.append(book.get('Date Added', ''))
+			row.append(re.sub('/', '-',book.get('Date Added', '')))
 			authors = [book.get('Author', '')]
 			authors.append(book.get('Additional Authors', ''))
 			row.append(','.join(authors))
 			row.append('') # Began date
-			row.append(book.get('Date Read', ''))
+			row.append(re.sub('/', '-', book.get('Date Read', '')))
 			row.append(book.get('Owned Copies', ''))
 			row.append('') # description
 			row.append('') # group
@@ -59,7 +59,8 @@ def convert_csv(args):
 			row.append('') # Review Date
 			exclusive_shelf = book.get('Exclusive Shelf')
 			row.append(EXCLUSIVE_SHELF_TO_STATUS[exclusive_shelf]) #status
-			row.append(','.join(book.get('Bookshelves'))) #tags
+			tags = [book.get('Bookshelves')]
+			row.append(','.join(tags)) #tags
 			row.append(book.get('Title', '')) #title
 
 			writer.writerow(row)
