@@ -1,6 +1,5 @@
 import csv
 import re
-import sys
 
 # Abandoned, Not Begun, In Progress, Completed
 EXCLUSIVE_SHELF_TO_STATUS = {
@@ -63,4 +62,4 @@ def convert_csv(filename):
         print('export complete')
 
 
-convert_csv('goodreads_export.csv')
+convert_csv("goodreads_export.csv")
