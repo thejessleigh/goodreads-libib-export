@@ -28,13 +28,13 @@ def convert_csv(args):
 		writer.writerow(libib_keys)
 		for book in books:
 			row = []
-			row.append(book.get('Date Added', ''))
-			authors = [book.get('Author', '')]
-			authors.append(book.get('Additional Authors', ''))
+			row.append(book.get('Date Added', None))
+			authors = [book.get('Author', None)]
+			authors.append(book.get('Additional Authors', None))
 			row.append(','.join(authors))
 			row.append('')
-			row.append(book.get('Date Read', ''))
-			row.append(book.get('Owned Copies', ''))
+			row.append(book.get('Date Read', None))
+			row.append(book.get('Owned Copies', None))
 			row.append('')
 			row.append('')
 			row.append('')
