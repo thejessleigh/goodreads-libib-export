@@ -20,11 +20,9 @@ def convert_csv(filename):
         rows = [x for x in reader]
 
     books = [book for book in rows]
-    print(books[1])
 
     libib_keys = ['Added Date', 'Authors', 'Began Date', 'Completed Date', 'Copies', 'Description', 'Group', 'ISBN 10',
                   'ISBN 13', 'UPC', 'EAN', 'Notes', 'Rating', 'Review', 'Review Date', 'Status', 'Tags', 'Title']
-    print(len(libib_keys))
 
     print('export contains {} books. Writing to \'libib_export.csv\' output file.'.format(len(books)))
 
