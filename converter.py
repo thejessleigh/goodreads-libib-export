@@ -1,22 +1,20 @@
 import csv
 import re
-import sys
 
-
-#Abandoned, Not Begun, In Progress, Completed
+# Abandoned, Not Begun, In Progress, Completed
 EXCLUSIVE_SHELF_TO_STATUS = {
-	'read': 'Completed',
-	'currently-reading': 'In Progress',
-	'dnf': 'Abandoned',
-	'abandoned': 'Abandoned',
-	'to-read': 'Not Begun',
-	'tbr': 'Not Begun',
-	'own-havent-read': 'Not Begun',
-	'owned-unread': 'Not Begun'
+    'read': 'Completed',
+    'currently-reading': 'In Progress',
+    'dnf': 'Abandoned',
+    'abandoned': 'Abandoned',
+    'to-read': 'Not Begun',
+    'tbr': 'Not Begun',
+    'own-havent-read': 'Not Begun',
+    'owned-unread': 'Not Begun'
 }
 
 
-def convert_csv(args):
+def convert_csv():
 	# if args[1] == 'help' or args[1] == '--help':
 	# 	print 'your first argument should be the shelf you wish to export to libib from goodreads'
 	# 	return
@@ -66,4 +64,4 @@ def convert_csv(args):
 			writer.writerow(row)
 
 
-convert_csv(sys.argv)
+convert_csv()
