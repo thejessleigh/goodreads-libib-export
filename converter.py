@@ -27,14 +27,14 @@ def convert_csv(args):
 		rows = [x for x in reader]
 
 	books = [book for book in rows]
-	print books[1]
+	print(books[1])
 
 	libib_keys = ['Added Date',	'Authors', 'Began Date', 'Completed Date', 'Copies', 'Description',	'Group', 'ISBN 10',	'ISBN 13', 'UPC', 'EAN', 'Notes', 'Rating', 'Review', 'Review Date', 'Status', 'Tags',	'Title']
-	print len(libib_keys)
+	print(len(libib_keys))
 
-	print 'export contains {} books. Writing to \'libib_export.csv\' output file.'.format(len(books))
+	print('export contains {} books. Writing to \'libib_export.csv\' output file.'.format(len(books)))
 
-	with open('libib_export.csv', 'wb') as f:
+	with open('libib_export.csv', 'w') as f:
 		writer = csv.writer(f)
 		writer.writerow(libib_keys)
 		for book in books:
