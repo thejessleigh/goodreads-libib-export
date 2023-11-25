@@ -27,43 +27,78 @@ def convert_csv(args):
 		rows = [x for x in reader]
 
 	books = [book for book in rows]
-	print books[1]
+	#print books[1]
 
-	libib_keys = ['Added Date',	'Authors', 'Began Date', 'Completed Date', 'Copies', 'Description',	'Group', 'ISBN 10',	'ISBN 13', 'UPC', 'EAN', 'Notes', 'Rating', 'Review', 'Review Date', 'Status', 'Tags',	'Title']
-	print len(libib_keys)
+	# Keys source: https://support.libib.com/support/import-a-csv-file/#download-csv-import-templates
+	# title,creators,description,upc_isbn10,ean_isbn13,group,tags,notes,price,added,publisher,publish_date,length_of,copies,call_number,lexile,ddc,lcc,lccn,oclc,rating,review,review_created,status,began_date,completed_date
+	libib_keys = ['title','creators','description','upc_isbn10','ean_isbn13','group','tags','notes','price','added','publisher','publish_date','length_of','copies','call_number','lexile','ddc','lcc','lccn','oclc','rating', 'review','review_created','status','began_date','completed_date']
 
-	print 'export contains {} books. Writing to \'libib_export.csv\' output file.'.format(len(books))
+	print('export contains {} books. Writing to \'libib_export.csv\' output file.'.format(len(books)))
 
-	with open('libib_export.csv', 'wb') as f:
+	with open('libib_export.csv', 'w') as f:
 		writer = csv.writer(f)
 		writer.writerow(libib_keys)
 		for book in books:
 			# Fields left blank are not available in the goodreads export
 			row = []
-			row.append(re.sub('/', '-',book.get('Date Added', '')))
+			row.append(book.get('Title', '')) #title
+			# creators
 			authors = [book.get('Author', '')]
 			authors.append(book.get('Additional Authors', ''))
 			row.append(','.join(authors))
-			row.append('') # Began date
-			row.append(re.sub('/', '-', book.get('Date Read', '')))
-			row.append(book.get('Owned Copies', ''))
+			# description
 			row.append('') # description
-			row.append('') # group
+			# upc_isbn10
 			row.append(book.get('ISBN', ''))
+			# omit - row.append('') # UPC
+			# ean_isbn13
 			row.append(book.get('ISBN13', ''))
-			row.append('') # UPC
-			row.append('') # EAN
-			row.append(book.get('Private Notes', ''))
-			row.append(book.get('My Rating', ''))
-			row.append(book.get('My Review', ''))
-			row.append('') # Review Date
-			exclusive_shelf = book.get('Exclusive Shelf')
-			row.append(EXCLUSIVE_SHELF_TO_STATUS[exclusive_shelf]) #status
+			# omit - row.append('') # EAN
+			# group
+			row.append('') # group
+			# tags
 			tags = [book.get('Bookshelves')]
 			row.append(','.join(tags)) #tags
-			row.append(book.get('Title', '')) #title
+			# notes
+			row.append(book.get('Private Notes', ''))
+			# price
+			row.append('') # no data in GoodReads export
+			# added
+			row.append(re.sub('/', '-',book.get('Date Added', '')))
+			# publisher
+			row.append(book.get('Publisher', ''))
+			# publish_date
+			row.append(book.get('Year Published', ''))
+			# length_of
+			row.append(book.get('Number of Pages', ''))
+			# copies
+			row.append(book.get('Owned Copies', ''))
+			# call_number
+			row.append('') # no data in GoodReads export			
+			# lexile
+			row.append('') # no data in GoodReads export
+			# ddc
+			row.append('') # no data in GoodReads export
+			# lcc
+			row.append('') # no data in GoodReads export
+			# lccn
+			row.append('') # no data in GoodReads export
+			# oclc
+			row.append('') # no data in GoodReads export
+			# rating
+			row.append(book.get('My Rating', ''))
+			# review
+			row.append(book.get('My Review', ''))
+			# review_created
+			row.append('') # Review Date
+			# status
+			exclusive_shelf = book.get('Exclusive Shelf')
+			row.append(EXCLUSIVE_SHELF_TO_STATUS[exclusive_shelf]) #status
+			# began_date
+			row.append('') # Began date
+			# completed_date
+			row.append(re.sub('/', '-', book.get('Date Read', '')))
 
 			writer.writerow(row)
-
 
 convert_csv(sys.argv)
